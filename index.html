@@ -570,10 +570,7 @@
 </head>
 <body>
 
-
-<!-- Fixed botanical corner decorations -->
 <div class="botanicals">
-  <!-- Top-left: eucalyptus branch -->
   <div class="botanical bot-tl">
     <svg width="180" height="220" viewBox="0 0 180 220" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M90 210 C88 180 85 140 88 100 C91 60 90 30 92 10" stroke="#8B9D83" stroke-width="2" fill="none" opacity="0.6"/>
@@ -591,8 +588,6 @@
       <ellipse cx="105" cy="175" rx="14" ry="8" transform="rotate(25 105 175)" fill="#B5C4AE" opacity="0.15"/>
     </svg>
   </div>
-
-  <!-- Top-right: gypsophila spray -->
   <div class="botanical bot-tr">
     <svg width="160" height="200" viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M80 195 C78 160 75 120 78 80 C80 50 82 25 80 10" stroke="#B5C4AE" stroke-width="1.5" fill="none" opacity="0.45"/>
@@ -602,7 +597,6 @@
       <path d="M80 120 C92 110 108 105 118 98" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.3"/>
       <path d="M80 55 C72 45 60 38 52 30" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.3"/>
       <path d="M80 55 C88 42 98 35 108 28" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.3"/>
-      <!-- Flower clusters -->
       <circle cx="40" cy="53" r="3.5" fill="white" opacity="0.6"/><circle cx="37" cy="50" r="2.5" fill="white" opacity="0.5"/>
       <circle cx="43" cy="49" r="2" fill="#F5F0EA" opacity="0.5"/><circle cx="35" cy="55" r="2" fill="white" opacity="0.4"/>
       <circle cx="115" cy="48" r="3.5" fill="white" opacity="0.6"/><circle cx="118" cy="45" r="2.5" fill="white" opacity="0.5"/>
@@ -615,7 +609,6 @@
       <circle cx="55" cy="26" r="2" fill="#F5F0EA" opacity="0.4"/>
       <circle cx="108" cy="26" r="3" fill="white" opacity="0.55"/><circle cx="111" cy="23" r="2" fill="white" opacity="0.45"/>
       <circle cx="105" cy="24" r="2" fill="#F5F0EA" opacity="0.4"/>
-      <!-- Scattered singles -->
       <circle cx="70" cy="40" r="2" fill="white" opacity="0.35"/>
       <circle cx="90" cy="35" r="1.5" fill="white" opacity="0.3"/>
       <circle cx="60" cy="75" r="2" fill="white" opacity="0.3"/>
@@ -624,8 +617,6 @@
       <circle cx="85" cy="160" r="1.5" fill="white" opacity="0.2"/>
     </svg>
   </div>
-
-  <!-- Bottom-left: gypsophila spray -->
   <div class="botanical bot-bl">
     <svg width="150" height="180" viewBox="0 0 150 180" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M75 175 C73 145 72 110 74 75 C76 45 75 20 75 5" stroke="#B5C4AE" stroke-width="1.5" fill="none" opacity="0.4"/>
@@ -647,8 +638,6 @@
       <circle cx="85" cy="55" r="1.5" fill="white" opacity="0.25"/>
     </svg>
   </div>
-
-  <!-- Bottom-right: eucalyptus branch -->
   <div class="botanical bot-br">
     <svg width="170" height="210" viewBox="0 0 170 210" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M85 205 C83 170 80 130 83 90 C86 55 85 25 87 5" stroke="#8B9D83" stroke-width="2" fill="none" opacity="0.5"/>
@@ -669,7 +658,6 @@
 
 <div class="container">
   <div class="header">
-    <!-- Header botanical accents -->
     <div class="bot-header-left">
       <svg width="100" height="120" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M50 115 C50 115 48 80 50 50 C52 20 50 5 50 5" stroke="#8B9D83" stroke-width="1.5" fill="none" opacity="0.5"/>
@@ -694,7 +682,7 @@
     </div>
     <div class="flourish">✦ ✦ ✦</div>
     <h1>Laura <span class="amp">&</span> Matt</h1>
-    <div class="date-line">The Twenty-Seventh of June, Two Thousand &amp; Twenty-Six</div>
+    <div class="date-line">The Twenty-Seventh of June, Two Thousand & Twenty-Six</div>
     <div class="divider"></div>
   </div>
 
@@ -802,6 +790,10 @@
         <button class="btn btn-gold" onclick="addToCalendar()">
           <span>📅</span> Add to Calendar
         </button>
+      </div>
+      
+      <div class="submit-area" style="margin-top: 20px;">
+        <button class="btn btn-primary" onclick="location.reload()" style="background: none; color: var(--sage); border: 1px solid var(--sage);">Back to Start</button>
       </div>
     </div>
   </div>
@@ -930,15 +922,10 @@ async function lookupGuest() {
           document.getElementById('invite-type-label').textContent = `Party of ${partyMembers.length}`;
         }
 
-        let const contactText = hasFullDay 
-          ? "If you need to change your RSVP or food choices, please contact Laura & Matt directly." 
-          : "If you need to change your RSVP, please contact Laura & Matt directly.";
-
-        summaryHtml += `</div>
-          <div style="margin-top:16px; padding:12px 14px; background:var(--warm); border-radius:8px; font-size:0.82rem; color:var(--text-light); font-style:italic; line-height:1.5; text-align:center;">
-            ${contactText}
-          </div>
-        </div>`;
+        let summaryHtml = `<div class="card" style="margin-top:8px; text-align:left; border-color: rgba(196,167,108,0.2);">
+          <div class="card-title" style="font-size:1.2rem; margin-bottom:6px;">Your RSVP</div>
+          <div class="card-subtitle">Responses have been submitted</div>
+          <div class="summary-list">`;
 
         partyMembers.forEach(m => {
           const yes = m.rsvpStatus === 'yes';
@@ -956,9 +943,13 @@ async function lookupGuest() {
           </div>`;
         });
 
+        const contactText = hasFullDay 
+          ? "If you need to change your RSVP or food choices, please contact Laura & Matt directly." 
+          : "If you need to change your RSVP, please contact Laura & Matt directly.";
+
         summaryHtml += `</div>
           <div style="margin-top:16px; padding:12px 14px; background:var(--warm); border-radius:8px; font-size:0.82rem; color:var(--text-light); font-style:italic; line-height:1.5; text-align:center;">
-            If you need to change your RSVP or food choices, please contact Laura & Matt directly.
+            ${contactText}
           </div>
         </div>`;
 
@@ -1082,7 +1073,7 @@ function renderPerson(idx) {
     menuHtml += `</div>`;
   }
 
-const childNote = child ? `<div class="child-note">Please complete this section on behalf of ${firstName}</div>` : '';
+  const childNote = child ? `<div class="child-note">Please complete this section on behalf of ${firstName}</div>` : '';
   const rsvpQ = child ? `Will ${firstName} be joining us?` : 'Will you be joining us?';
   const yesLabel = child ? 'Yes' : 'Joyfully Accept';
   const noLabel = child ? 'No' : 'Regretfully Decline';
@@ -1091,16 +1082,12 @@ const childNote = child ? `<div class="child-note">Please complete this section 
   let dietaryLbl = '';
 
   if (needsFood(m)) {
-    // Full day guests (with food)
     dietaryPH = child ? `Any allergies or dietary needs for ${firstName}...` : 'Any allergies, dietary needs, or a note for the couple...';
     dietaryLbl = child ? 'Dietary Requirements or Allergies' : 'Dietary Requirements or Message';
   } else {
-    // Evening guests (no food)
     dietaryPH = child ? `Any note for the couple regarding ${firstName}...` : 'Any message or note for the couple...';
     dietaryLbl = child ? 'Note (Optional)' : 'Message for the Couple (Optional)';
   }
-  const yesLabel = child ? 'Yes' : 'Joyfully Accept';
-  const noLabel = child ? 'No' : 'Regretfully Decline';
 
   area.innerHTML = `<div class="person-card ${child ? 'child-card' : ''}">
     <div class="person-name">${m.name}</div>
@@ -1242,7 +1229,7 @@ async function submitAll() {
     const allDeclined = partyMembers.every(m => responses[m.name].rsvp === 'no');
     const calWrapper = document.getElementById('calendar-wrapper');
 
-  if (allDeclined) {
+    if (allDeclined) {
       if(calWrapper) calWrapper.style.display = 'none';
       document.getElementById('conf-icon').textContent = '💛';
       document.getElementById('conf-title').textContent = "We'll Miss You";
@@ -1255,12 +1242,12 @@ async function submitAll() {
         ? "All your RSVPs and menu choices have been received. We can't wait to celebrate with you!"
         : "Your RSVP has been received. We can't wait to celebrate with you!";
         
-      // ✨ THE NEW CONFETTI TRIGGER ✨
+      // Trigger the confetti animation for guests who accepted
       confetti({
         particleCount: 150,
         spread: 80,
         origin: { y: 0.6 },
-        colors: ['#8B9D83', '#C4A76C', '#D4A5A5', '#B8A9C9'], // Your custom wedding palette!
+        colors: ['#8B9D83', '#C4A76C', '#D4A5A5', '#B8A9C9'],
         disableForReducedMotion: true
       });
     }
@@ -1300,6 +1287,8 @@ function addToCalendar() {
   window.open(calendarUrl, '_blank');
 }
 </script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
 </body>
 </html>

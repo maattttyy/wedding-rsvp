@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wedding RSVP</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
+<link href="[https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap](https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap)" rel="stylesheet">
 <style>
   :root {
     --sage: #8B9D83;
@@ -106,4 +106,1164 @@
     font-weight: 300;
     border: 1px solid var(--sage-light);
     border-radius: 8px;
-    background: var(--white
+    background: var(--white);
+    color: var(--charcoal);
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .input-group input:focus { border-color: var(--sage); box-shadow: 0 0 0 3px rgba(139,157,131,0.12); }
+  .input-group input::placeholder { color: #B5B5B5; font-weight: 300; }
+
+  .divider-text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #888;
+    font-size: 0.8rem;
+    margin: 15px 0;
+  }
+  .divider-text::before, .divider-text::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+  }
+  .divider-text:not(:empty)::before { margin-right: .5em; }
+  .divider-text:not(:empty)::after { margin-left: .5em; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 40px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+  }
+  .btn-primary { background: var(--sage); color: var(--white); }
+  .btn-primary:hover { background: #7A8E72; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(139,157,131,0.3); }
+  .btn-gold { background: var(--gold); color: var(--white); }
+  .btn-gold:hover { background: #B89755; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(196,167,108,0.3); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+  .error-msg {
+    display: none;
+    background: #FFF5F5;
+    color: var(--error);
+    border: 1px solid rgba(196, 91, 91, 0.2);
+    padding: 14px;
+    border-radius: 8px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    margin: 20px 0;
+    line-height: 1.4;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(196, 91, 91, 0.05);
+  }
+  .error-msg.visible {
+    display: block;
+    animation: errorShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  }
+  @keyframes errorShake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+    40%, 60% { transform: translate3d(3px, 0, 0); }
+  }
+
+  .card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 36px 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+    border: 1px solid rgba(139,157,131,0.1);
+    overflow: hidden;
+  }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-align: center;
+    color: var(--charcoal);
+    margin-bottom: 4px;
+  }
+  .card-subtitle {
+    text-align: center;
+    font-size: 0.78rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  .divider-small { width: 40px; height: 1px; background: var(--gold-light); margin: 0 auto 20px; }
+
+  .venue-section { margin-bottom: 24px; }
+  .venue-section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .venue-section h3 .icon { font-size: 1rem; opacity: 0.7; }
+  .venue-detail {
+    padding: 14px 16px;
+    background: var(--warm);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .venue-detail strong { font-weight: 500; color: var(--charcoal); }
+  .venue-detail .label {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+
+  .map-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 65%;
+    margin-top: 4px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .map-wrapper iframe {
+    position: absolute;
+    top: -60px;
+    left: 0;
+    width: 100%;
+    height: calc(100% + 60px);
+    border: 0;
+    border-radius: 0;
+  }
+  .parking-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--sage);
+    text-decoration: none;
+    font-weight: 400;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+  .parking-link:hover { color: #7A8E72; text-decoration: underline; }
+
+  .group-progress {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .progress-pip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    background: var(--warm);
+    color: var(--text-light);
+    border: 1.5px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .progress-pip:hover { border-color: var(--sage-light); }
+  .progress-pip.active { border-color: var(--sage); background: var(--sage-pale); color: var(--sage); font-weight: 500; }
+  .progress-pip.done { background: var(--sage); color: var(--white); border-color: var(--sage); }
+  .progress-pip .pip-icon { font-size: 0.7rem; }
+
+  .person-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 32px 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+    border: 1px solid rgba(139,157,131,0.1);
+    animation: fadeUp 0.5s ease;
+  }
+  .person-card.child-card {
+    border-color: rgba(184,169,201,0.25);
+    background: linear-gradient(180deg, var(--white) 0%, #FAF8FD 100%);
+  }
+  .person-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .person-type {
+    text-align: center;
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+  .person-type.adult { color: var(--gold); }
+  .person-type.child { color: var(--lilac); }
+
+  .child-note {
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--text-light);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+
+  .rsvp-section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 16px;
+    color: var(--charcoal);
+  }
+  .rsvp-options { display: flex; gap: 12px; margin-bottom: 20px; }
+  .rsvp-option {
+    flex: 1;
+    padding: 16px 12px;
+    border: 2px solid var(--sage-light);
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--white);
+  }
+  .rsvp-option:hover { border-color: var(--sage); background: var(--sage-pale); }
+  .rsvp-option.selected { border-color: var(--sage); background: var(--sage-pale); box-shadow: 0 0 0 3px rgba(139,157,131,0.15); }
+  .rsvp-option .rsvp-icon { font-size: 1.5rem; margin-bottom: 4px; }
+  .rsvp-option .rsvp-label { font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 400; color: var(--text); }
+
+  .dietary-section { margin-top: 16px; }
+  .dietary-section label {
+    display: block;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+  .dietary-section textarea {
+    width: 100%;
+    padding: 14px 16px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    border: 1px solid var(--sage-light);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--charcoal);
+    outline: none;
+    resize: vertical;
+    min-height: 70px;
+    transition: border-color 0.3s;
+  }
+  .dietary-section textarea:focus { border-color: var(--sage); box-shadow: 0 0 0 3px rgba(139,157,131,0.12); }
+
+  .menu-area { margin-top: 20px; display: none; animation: fadeUp 0.4s ease; }
+  .menu-area.visible { display: block; }
+  .course-group { margin-bottom: 22px; }
+  .course-group:last-child { margin-bottom: 0; }
+  .course-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--sage);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--sage-pale);
+  }
+  .course-title.child-course { color: var(--lilac); border-bottom-color: var(--lilac-pale); }
+
+  .menu-option {
+    padding: 12px 14px;
+    border: 1.5px solid transparent;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: var(--warm);
+  }
+  .menu-option:hover { border-color: var(--sage-light); background: var(--sage-pale); }
+  .menu-option.selected { border-color: var(--sage); background: var(--sage-pale); box-shadow: inset 3px 0 0 var(--sage); }
+  .menu-option.child-option { background: #F9F6FC; }
+  .menu-option.child-option:hover { border-color: rgba(184,169,201,0.5); background: var(--lilac-pale); }
+  .menu-option.child-option.selected { border-color: var(--lilac); background: var(--lilac-pale); box-shadow: inset 3px 0 0 var(--lilac); }
+  .menu-option .dish-name { font-weight: 400; font-size: 0.92rem; color: var(--charcoal); margin-bottom: 2px; }
+  .menu-option .dish-desc { font-size: 0.78rem; color: var(--text-light); font-weight: 300; line-height: 1.4; }
+  .menu-option .check-mark { float: right; color: var(--sage); font-size: 1.1rem; opacity: 0; transition: opacity 0.2s; margin-top: 4px; }
+  .menu-option.selected .check-mark { opacity: 1; }
+  .menu-option.child-option .check-mark { color: var(--lilac); }
+
+  .menu-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    text-align: center;
+    color: var(--charcoal);
+    margin-bottom: 4px;
+  }
+  .menu-heading-sub {
+    text-align: center;
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 18px;
+  }
+  .menu-heading-sub.adult-menu { color: var(--gold); }
+  .menu-heading-sub.child-menu { color: var(--lilac); }
+
+  .person-nav { display: flex; justify-content: center; gap: 12px; padding: 10px 0 10px; }
+  .submit-area { text-align: center; padding: 10px 0 40px; }
+
+  .confirmation {
+    padding: 80px 20px;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(139, 157, 131, 0.1);
+    border: 1px solid var(--sage-pale);
+    margin-top: 40px;
+    text-align: center;
+  }
+  #conf-icon {
+    font-size: 4rem;
+    margin-bottom: 24px;
+    display: inline-block;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    animation: popIn 0.5s ease;
+  }
+  #conf-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--charcoal);
+    margin-bottom: 15px;
+  }
+  #conf-message {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-light);
+    max-width: 450px;
+    margin: 0 auto 30px;
+    line-height: 1.6;
+  }
+
+  .summary-list { margin: 16px 0; }
+  .summary-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--warm);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .summary-item .s-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  .summary-item .s-name { font-weight: 500; color: var(--charcoal); }
+  .summary-item .s-child-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--lilac);
+    background: var(--lilac-pale);
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: middle;
+    font-weight: 500;
+  }
+  .summary-item .s-details { color: var(--text-light); font-weight: 300; font-size: 0.8rem; }
+  .summary-item.accepted { border-left: 3px solid var(--success); }
+  .summary-item.declined { border-left: 3px solid var(--rose); }
+
+  .spinner {
+    display: inline-block;
+    width: 20px; height: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: var(--white);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 400;
+    z-index: 1000;
+    transition: transform 0.4s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--success); color: var(--white); }
+  .toast.error { background: var(--error); color: var(--white); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes popIn { 0% { opacity: 0; transform: scale(0.5); } 70% { transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes gentleSway {
+    0%, 100% { transform: rotate(var(--base-rot, 0deg)); }
+    50% { transform: rotate(calc(var(--base-rot, 0deg) + 3deg)); }
+  }
+
+  .botanicals { pointer-events: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; }
+  .botanical { position: absolute; opacity: 0; animation: fadeIn 2s ease forwards; }
+  .botanical svg { display: block; }
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  .bot-tl { top: -20px; left: -30px; --base-rot: -15deg; transform: rotate(-15deg); animation: fadeIn 2s ease forwards, gentleSway 8s ease-in-out infinite; animation-delay: 0.3s, 0.3s; }
+  .bot-tr { top: -10px; right: -20px; --base-rot: 20deg; transform: rotate(20deg); animation: fadeIn 2s ease forwards, gentleSway 9s ease-in-out infinite; animation-delay: 0.6s, 0.6s; }
+  .bot-bl { bottom: -10px; left: -20px; --base-rot: 10deg; transform: rotate(10deg) scaleX(-1); animation: fadeIn 2.5s ease forwards, gentleSway 10s ease-in-out infinite; animation-delay: 1s, 1s; }
+  .bot-br { bottom: -30px; right: -30px; --base-rot: 170deg; transform: rotate(170deg); animation: fadeIn 2.5s ease forwards, gentleSway 8.5s ease-in-out infinite; animation-delay: 0.8s, 0.8s; }
+  
+  .bot-header-left { position: absolute; top: 15px; left: -60px; --base-rot: -30deg; transform: rotate(-30deg); animation: fadeIn 1.5s ease forwards, gentleSway 7s ease-in-out infinite; animation-delay: 0.5s, 0.5s; opacity: 0; pointer-events: none; }
+  .bot-header-right { position: absolute; top: 15px; right: -60px; --base-rot: 30deg; transform: rotate(30deg) scaleX(-1); animation: fadeIn 1.5s ease forwards, gentleSway 7.5s ease-in-out infinite; animation-delay: 0.7s, 0.7s; opacity: 0; pointer-events: none; }
+  .header { position: relative; }
+
+  @media (max-width: 480px) {
+    .container { padding: 12px; }
+    .card, .person-card { padding: 24px 18px; }
+    .rsvp-options { flex-direction: column; }
+    .group-progress { gap: 6px; }
+    .progress-pip { padding: 5px 10px; font-size: 0.7rem; }
+    .bot-tl, .bot-tr, .bot-bl, .bot-br { transform: scale(0.6); }
+    .bot-header-left, .bot-header-right { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="botanicals">
+  <div class="botanical bot-tl">
+    <svg width="180" height="220" viewBox="0 0 180 220" fill="none" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+      <path d="M90 210 C88 180 85 140 88 100 C91 60 90 30 92 10" stroke="#8B9D83" stroke-width="2" fill="none" opacity="0.6"/>
+      <path d="M88 100 C78 95 65 88 55 92" stroke="#8B9D83" stroke-width="1.2" fill="none" opacity="0.4"/>
+      <path d="M90 140 C100 135 115 128 125 133" stroke="#8B9D83" stroke-width="1.2" fill="none" opacity="0.4"/>
+      <ellipse cx="72" cy="30" rx="16" ry="9" transform="rotate(-40 72 30)" fill="#8B9D83" opacity="0.22"/>
+      <ellipse cx="108" cy="50" rx="17" ry="9.5" transform="rotate(35 108 50)" fill="#B5C4AE" opacity="0.25"/>
+      <ellipse cx="68" cy="70" rx="18" ry="10" transform="rotate(-30 68 70)" fill="#8B9D83" opacity="0.2"/>
+      <ellipse cx="112" cy="90" rx="16" ry="9" transform="rotate(40 112 90)" fill="#B5C4AE" opacity="0.22"/>
+      <ellipse cx="55" cy="95" rx="14" ry="8" transform="rotate(-45 55 95)" fill="#8B9D83" opacity="0.18"/>
+      <ellipse cx="70" cy="115" rx="17" ry="9" transform="rotate(-25 70 115)" fill="#B5C4AE" opacity="0.2"/>
+      <ellipse cx="115" cy="135" rx="16" ry="8.5" transform="rotate(30 115 135)" fill="#8B9D83" opacity="0.2"/>
+      <ellipse cx="125" cy="137" rx="12" ry="7" transform="rotate(50 125 137)" fill="#B5C4AE" opacity="0.18"/>
+      <ellipse cx="75" cy="155" rx="15" ry="8.5" transform="rotate(-35 75 155)" fill="#8B9D83" opacity="0.18"/>
+      <ellipse cx="105" cy="175" rx="14" ry="8" transform="rotate(25 105 175)" fill="#B5C4AE" opacity="0.15"/>
+    </svg>
+  </div>
+  <div class="botanical bot-tr">
+    <svg width="160" height="200" viewBox="0 0 160 200" fill="none" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+      <path d="M80 195 C78 160 75 120 78 80 C80 50 82 25 80 10" stroke="#B5C4AE" stroke-width="1.5" fill="none" opacity="0.45"/>
+      <path d="M78 80 C65 70 50 62 40 55" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.35"/>
+      <path d="M78 80 C90 68 105 58 115 50" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.35"/>
+      <path d="M80 120 C68 112 52 108 42 100" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.3"/>
+      <path d="M80 120 C92 110 108 105 118 98" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.3"/>
+      <path d="M80 55 C72 45 60 38 52 30" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.3"/>
+      <path d="M80 55 C88 42 98 35 108 28" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.3"/>
+      <circle cx="40" cy="53" r="3.5" fill="white" opacity="0.6"/><circle cx="37" cy="50" r="2.5" fill="white" opacity="0.5"/>
+      <circle cx="43" cy="49" r="2" fill="#F5F0EA" opacity="0.5"/><circle cx="35" cy="55" r="2" fill="white" opacity="0.4"/>
+      <circle cx="115" cy="48" r="3.5" fill="white" opacity="0.6"/><circle cx="118" cy="45" r="2.5" fill="white" opacity="0.5"/>
+      <circle cx="112" cy="44" r="2" fill="#F5F0EA" opacity="0.5"/><circle cx="120" cy="50" r="2" fill="white" opacity="0.4"/>
+      <circle cx="42" cy="98" r="3" fill="white" opacity="0.55"/><circle cx="39" cy="95" r="2.5" fill="white" opacity="0.45"/>
+      <circle cx="45" cy="95" r="2" fill="#F5F0EA" opacity="0.4"/>
+      <circle cx="118" cy="96" r="3" fill="white" opacity="0.55"/><circle cx="121" cy="93" r="2.5" fill="white" opacity="0.45"/>
+      <circle cx="115" cy="93" r="2" fill="#F5F0EA" opacity="0.4"/>
+      <circle cx="52" cy="28" r="3" fill="white" opacity="0.55"/><circle cx="49" cy="25" r="2" fill="white" opacity="0.45"/>
+      <circle cx="55" cy="26" r="2" fill="#F5F0EA" opacity="0.4"/>
+      <circle cx="108" cy="26" r="3" fill="white" opacity="0.55"/><circle cx="111" cy="23" r="2" fill="white" opacity="0.45"/>
+      <circle cx="105" cy="24" r="2" fill="#F5F0EA" opacity="0.4"/>
+      <circle cx="70" cy="40" r="2" fill="white" opacity="0.35"/>
+      <circle cx="90" cy="35" r="1.5" fill="white" opacity="0.3"/>
+      <circle cx="60" cy="75" r="2" fill="white" opacity="0.3"/>
+      <circle cx="100" cy="70" r="1.5" fill="white" opacity="0.3"/>
+      <circle cx="75" cy="150" r="2" fill="white" opacity="0.25"/>
+      <circle cx="85" cy="160" r="1.5" fill="white" opacity="0.2"/>
+    </svg>
+  </div>
+  <div class="botanical bot-bl">
+    <svg width="150" height="180" viewBox="0 0 150 180" fill="none" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+      <path d="M75 175 C73 145 72 110 74 75 C76 45 75 20 75 5" stroke="#B5C4AE" stroke-width="1.5" fill="none" opacity="0.4"/>
+      <path d="M74 75 C62 67 48 60 38 52" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.3"/>
+      <path d="M74 75 C86 65 100 57 110 50" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.3"/>
+      <path d="M75 110 C63 102 50 97 40 90" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.25"/>
+      <path d="M75 110 C87 100 102 94 112 88" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.25"/>
+      <path d="M75 45 C65 37 55 30 45 24" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.25"/>
+      <path d="M75 45 C85 35 95 28 105 22" stroke="#B5C4AE" stroke-width="1" fill="none" opacity="0.25"/>
+      <circle cx="38" cy="50" r="3" fill="white" opacity="0.55"/><circle cx="35" cy="47" r="2.2" fill="white" opacity="0.45"/>
+      <circle cx="41" cy="47" r="1.8" fill="#F5F0EA" opacity="0.4"/>
+      <circle cx="110" cy="48" r="3" fill="white" opacity="0.55"/><circle cx="113" cy="45" r="2.2" fill="white" opacity="0.45"/>
+      <circle cx="107" cy="45" r="1.8" fill="#F5F0EA" opacity="0.4"/>
+      <circle cx="40" cy="88" r="2.8" fill="white" opacity="0.5"/><circle cx="37" cy="85" r="2" fill="white" opacity="0.4"/>
+      <circle cx="112" cy="86" r="2.8" fill="white" opacity="0.5"/><circle cx="115" cy="83" r="2" fill="white" opacity="0.4"/>
+      <circle cx="45" cy="22" r="2.5" fill="white" opacity="0.45"/><circle cx="42" cy="20" r="1.8" fill="white" opacity="0.35"/>
+      <circle cx="105" cy="20" r="2.5" fill="white" opacity="0.45"/><circle cx="108" cy="18" r="1.8" fill="white" opacity="0.35"/>
+      <circle cx="65" cy="60" r="1.5" fill="white" opacity="0.3"/>
+      <circle cx="85" cy="55" r="1.5" fill="white" opacity="0.25"/>
+    </svg>
+  </div>
+  <div class="botanical bot-br">
+    <svg width="170" height="210" viewBox="0 0 170 210" fill="none" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+      <path d="M85 205 C83 170 80 130 83 90 C86 55 85 25 87 5" stroke="#8B9D83" stroke-width="2" fill="none" opacity="0.5"/>
+      <path d="M83 90 C73 85 60 78 50 82" stroke="#8B9D83" stroke-width="1.2" fill="none" opacity="0.35"/>
+      <path d="M85 130 C95 125 110 118 120 123" stroke="#8B9D83" stroke-width="1.2" fill="none" opacity="0.35"/>
+      <ellipse cx="67" cy="25" rx="15" ry="8.5" transform="rotate(-40 67 25)" fill="#8B9D83" opacity="0.18"/>
+      <ellipse cx="103" cy="45" rx="16" ry="9" transform="rotate(35 103 45)" fill="#B5C4AE" opacity="0.2"/>
+      <ellipse cx="63" cy="60" rx="17" ry="9.5" transform="rotate(-30 63 60)" fill="#8B9D83" opacity="0.17"/>
+      <ellipse cx="107" cy="80" rx="15" ry="8.5" transform="rotate(40 107 80)" fill="#B5C4AE" opacity="0.18"/>
+      <ellipse cx="50" cy="85" rx="13" ry="7.5" transform="rotate(-45 50 85)" fill="#8B9D83" opacity="0.15"/>
+      <ellipse cx="65" cy="105" rx="16" ry="8.5" transform="rotate(-25 65 105)" fill="#B5C4AE" opacity="0.17"/>
+      <ellipse cx="120" cy="125" rx="15" ry="8" transform="rotate(30 120 125)" fill="#8B9D83" opacity="0.16"/>
+      <ellipse cx="70" cy="145" rx="14" ry="8" transform="rotate(-35 70 145)" fill="#B5C4AE" opacity="0.15"/>
+      <ellipse cx="100" cy="165" rx="13" ry="7.5" transform="rotate(25 100 165)" fill="#8B9D83" opacity="0.13"/>
+    </svg>
+  </div>
+</div>
+
+<div class="container">
+  <div class="header">
+    <div class="bot-header-left">
+      <svg width="100" height="120" viewBox="0 0 100 120" fill="none" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+        <path d="M50 115 C50 115 48 80 50 50 C52 20 50 5 50 5" stroke="#8B9D83" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <ellipse cx="38" cy="25" rx="10" ry="6" transform="rotate(-30 38 25)" fill="#B5C4AE" opacity="0.4"/>
+        <ellipse cx="60" cy="35" rx="10" ry="6" transform="rotate(25 60 35)" fill="#8B9D83" opacity="0.35"/>
+        <ellipse cx="35" cy="50" rx="11" ry="6.5" transform="rotate(-20 35 50)" fill="#B5C4AE" opacity="0.4"/>
+        <ellipse cx="62" cy="62" rx="10" ry="6" transform="rotate(30 62 62)" fill="#8B9D83" opacity="0.3"/>
+        <ellipse cx="38" cy="78" rx="11" ry="6" transform="rotate(-25 38 78)" fill="#B5C4AE" opacity="0.35"/>
+        <ellipse cx="58" cy="90" rx="9" ry="5.5" transform="rotate(20 58 90)" fill="#8B9D83" opacity="0.3"/>
+      </svg>
+    </div>
+    <div class="bot-header-right">
+      <svg width="100" height="120" viewBox="0 0 100 120" fill="none" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+        <path d="M50 115 C50 115 48 80 50 50 C52 20 50 5 50 5" stroke="#8B9D83" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <ellipse cx="38" cy="25" rx="10" ry="6" transform="rotate(-30 38 25)" fill="#B5C4AE" opacity="0.4"/>
+        <ellipse cx="60" cy="35" rx="10" ry="6" transform="rotate(25 60 35)" fill="#8B9D83" opacity="0.35"/>
+        <ellipse cx="35" cy="50" rx="11" ry="6.5" transform="rotate(-20 35 50)" fill="#B5C4AE" opacity="0.4"/>
+        <ellipse cx="62" cy="62" rx="10" ry="6" transform="rotate(30 62 62)" fill="#8B9D83" opacity="0.3"/>
+        <ellipse cx="38" cy="78" rx="11" ry="6" transform="rotate(-25 38 78)" fill="#B5C4AE" opacity="0.35"/>
+        <ellipse cx="58" cy="90" rx="9" ry="5.5" transform="rotate(20 58 90)" fill="#8B9D83" opacity="0.3"/>
+      </svg>
+    </div>
+    <div class="flourish">✦ ✦ ✦</div>
+    <h1>Laura <span class="amp">&</span> Matt</h1>
+    <div class="date-line">The Twenty-Seventh of June, Two Thousand & Twenty-Six</div>
+    <div class="divider"></div>
+  </div>
+
+  <div id="screen-name" class="screen active">
+    <div class="name-entry">
+      <p>Please enter any name from your invitation to get started</p>
+      
+      <div class="input-group">
+        <input type="text" id="guest-name" placeholder="Your full name" autocomplete="name" autofocus style="letter-spacing:2px; text-transform:uppercase;">
+      </div>
+
+      <div class="divider-text">AND</div>
+
+      <div class="input-group">
+        <input type="text" id="guest-code" placeholder="Your unique invite code" autocomplete="off" style="letter-spacing:2px; text-transform:uppercase;">
+      </div>
+      
+      <div id="name-error" class="error-msg">
+        <span style="display:block; font-size: 1.2rem; margin-bottom: 4px;">✉</span>
+        We couldn't find that name on our guest list.
+      </div>
+      <button class="btn btn-primary" id="btn-lookup" onclick="lookupGuest()">Find My Invitation</button>
+    </div>
+  </div>
+
+  <div id="screen-rsvp" class="screen">
+    <div class="card">
+      <div class="card-title" id="greeting-party">Welcome</div>
+      <div class="card-subtitle" id="invite-type-label">Your Celebration Details</div>
+      <div class="divider-small"></div>
+
+      <div id="ceremony-info" class="venue-section" style="display:none;">
+        <h3><span class="icon">🕊</span> Ceremony</h3>
+        <div class="venue-detail">
+          <div class="label">When</div>
+          <strong>12:30 PM</strong>
+        </div>
+        <div class="venue-detail">
+          <div class="label">Where</div>
+          <strong>Penryn Town Hall</strong><br>
+          Penryn Library St Thomas Street, Penryn, TR10 8JN
+        </div>
+      </div>
+
+      <div id="reception-info" class="venue-section" style="display:none;">
+        <h3><span class="icon">🥂</span> Wedding Breakfast & Evening Reception</h3>
+        <div class="venue-detail">
+          <div class="label">Wedding Breakfast</div>
+          <strong>2:30 PM</strong>
+        </div>
+        <div class="venue-detail">
+          <div class="label">Evening Celebrations</div>
+          <strong>6:30 PM onwards</strong>
+        </div>
+        <div class="venue-detail">
+          <div class="label">Where</div>
+          <strong>Castaways Wine Bar</strong><br>
+          Mylor Yacht Harbour Penarrow Road, Falmouth, TR11 5UF
+        </div>
+      </div>
+
+      <div id="evening-info" class="venue-section" style="display:none;">
+        <h3><span class="icon">✨</span> Evening Reception</h3>
+        <div class="venue-detail">
+          <div class="label">When</div>
+          <strong>6:30 PM onwards</strong>
+        </div>
+        <div class="venue-detail">
+          <div class="label">Where</div>
+          <strong>Castaways Wine Bar</strong><br>
+          Mylor Yacht Harbour Penarrow Road, Falmouth, TR11 5UF
+        </div>
+      </div>
+
+      <div class="venue-section">
+        <h3><span class="icon">🅿</span> Parking</h3>
+        <div class="venue-detail">
+          <div class="label">Location</div>
+          <div class="map-wrapper">
+            <iframe src="[https://www.google.com/maps/d/u/0/embed?mid=1OSJLhMZCiy-eApDsn5a2622ezrKSG6Q&ehbc=2E312F](https://www.google.com/maps/d/u/0/embed?mid=1OSJLhMZCiy-eApDsn5a2622ezrKSG6Q&ehbc=2E312F)" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <a href="[https://maps.app.goo.gl/hF1M6KDEET1WXVKv6](https://maps.app.goo.gl/hF1M6KDEET1WXVKv6)" target="_blank" rel="noopener" class="parking-link">Open in Google Maps ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="group-progress" class="group-progress"></div>
+    <div id="person-rsvp-area"></div>
+    <div class="person-nav" id="person-nav"></div>
+
+    <div class="submit-area" id="submit-area" style="display:none;">
+      <div id="review-summary"></div>
+      <button class="btn btn-gold" id="btn-submit" onclick="submitAll()">Send All RSVPs</button>
+      <div id="submit-error" class="error-msg" style="margin-top:12px;"></div>
+    </div>
+  </div>
+
+  <div id="screen-confirm" class="screen">
+    <div class="confirmation">
+      <div class="conf-icon" id="conf-icon">🎉</div>
+      <h2 id="conf-title">Thank You!</h2>
+      <p id="conf-message">Your RSVPs have been received.</p>
+      
+      <div id="calendar-wrapper" style="margin-top: 30px;">
+        <button class="btn btn-gold" onclick="addToCalendar()">
+          <span>📅</span> Add to Calendar
+        </button>
+      </div>
+      
+      <div class="submit-area" style="margin-top: 20px;">
+        <button class="btn btn-primary" onclick="location.reload()" style="background: none; color: var(--sage); border: 1px solid var(--sage);">Back to Start</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const APPS_SCRIPT_URL = '[https://script.google.com/macros/s/AKfycbzD6xsLJO4M6weGmvHUrfrkO-E_ofsCQhzLHDN1YyDxHM6qGhuKORUIrnGbn4Gmqm7Q/exec](https://script.google.com/macros/s/AKfycbzD6xsLJO4M6weGmvHUrfrkO-E_ofsCQhzLHDN1YyDxHM6qGhuKORUIrnGbn4Gmqm7Q/exec)';
+const FULL_DAY_LOCKED = true;
+
+const MENU = {
+  starter: [
+    { dish: 'Soup', name: 'Roasted Tomato & Basil Soup', desc: 'With sourdough croutons & herb oil' },
+    { dish: 'Salmon', name: 'Citrus Cured Salmon', desc: 'Pickled cucumber, dill crème fraîche, rye crisps' },
+    { dish: 'Goats Cheese', name: "Goat's Cheese & Beetroot Tart", desc: 'Candied walnuts, honey vinaigrette (V)' }
+  ],
+  main: [
+    { dish: 'Beef', name: 'Slow-Roasted Beef Fillet', desc: 'Dauphinoise potatoes, seasonal greens, red wine jus' },
+    { dish: 'Chicken', name: 'Herb-Crusted Chicken Supreme', desc: 'Crushed new potatoes, tenderstem broccoli, tarragon sauce' },
+    { dish: 'Mushroom Wellington', name: 'Wild Mushroom Wellington', desc: 'Truffle mash, roasted roots, thyme gravy (VG)' }
+  ],
+  dessert: [
+    { dish: 'Cheesecake', name: 'Vanilla Bean Cheesecake', desc: 'Berry compote, shortbread crumb' },
+    { dish: 'Chocolate', name: 'Dark Chocolate Fondant', desc: 'Salted caramel ice cream, honeycomb' },
+    { dish: 'Panna Cotta', name: 'Lemon & Elderflower Panna Cotta', desc: 'Fresh raspberries, pistachio crumble' }
+  ]
+};
+
+const KIDS_MENU = {
+  starter: [
+    { dish: 'Tomato Soup', name: 'Tomato Soup', desc: 'With bread soldiers' },
+    { dish: 'Garlic Bread', name: 'Cheesy Garlic Bread', desc: 'Toasted ciabatta with melted cheese' }
+  ],
+  main: [
+    { dish: 'Chicken Goujons', name: 'Chicken Goujons', desc: 'With chips & garden peas' },
+    { dish: 'Mac & Cheese', name: 'Mac & Cheese', desc: 'Creamy macaroni cheese with garlic bread' },
+    { dish: 'Fish Fingers', name: 'Fish Fingers', desc: 'With chips & baked beans' }
+  ],
+  dessert: [
+    { dish: 'Ice Cream', name: 'Ice Cream Sundae', desc: 'Three scoops with chocolate sauce & sprinkles' },
+    { dish: 'Brownie', name: 'Chocolate Brownie', desc: 'Warm brownie with vanilla ice cream' }
+  ]
+};
+
+function isChild(m)    { return m.type.startsWith('child'); }
+function isFullDay(m)  { return m.type === 'full' || m.type === 'child-full'; }
+function needsFood(m)  { return isFullDay(m); }
+function getMenuFor(m) { return isChild(m) ? KIDS_MENU : MENU; }
+
+function typeLabel(m) {
+  if (m.type === 'full')           return 'Full Day Guest';
+  if (m.type === 'evening')        return 'Evening Guest';
+  if (m.type === 'child-full')     return "Child Full Day";
+  if (m.type === 'child-evening')  return "Child Evening";
+  return 'Guest';
+}
+
+let partyMembers = [];
+let allPartyMembers = [];
+let currentIdx = 0;
+let responses = {};
+
+async function lookupGuest() {
+  const name = document.getElementById('guest-name').value.trim();
+  const code = document.getElementById('guest-code').value.trim().toUpperCase();
+  const errorEl = document.getElementById('name-error');
+  const btn = document.getElementById('btn-lookup');
+
+  if (!name) { errorEl.textContent = 'Please enter your name.'; errorEl.classList.add('visible'); return; }
+  if (!code) { errorEl.textContent = 'Please enter your unique invite code.'; errorEl.classList.add('visible'); return; }
+  
+  errorEl.classList.remove('visible');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+
+  try {
+    const res = await fetch(`${APPS_SCRIPT_URL}?action=lookup&name=${encodeURIComponent(name)}&code=${encodeURIComponent(code)}`);
+    const data = await res.json();
+
+    if (!data.found || (data.found && data.codeMatch === false)) {
+      errorEl.classList.remove('visible');
+      void errorEl.offsetWidth; 
+      if (data.found && data.codeMatch === false) {
+        errorEl.textContent = "The invite code doesn't match. Please check the code on your invitation.";
+      } else {
+        errorEl.textContent = "We couldn't find that name on our guest list. Please check the spelling matches your invitation.";
+      }
+      errorEl.classList.add('visible');
+      return; 
+    }
+
+    if (data.found) {
+      partyMembers = data.members;
+
+      if (FULL_DAY_LOCKED) {
+        const hasFullDay = partyMembers.some(m => isFullDay(m));
+        if (hasFullDay) {
+          errorEl.textContent = "Full day invitations are not yet available. Please check back soon.";
+          errorEl.classList.add('visible');
+          return;
+        }
+      }
+
+      const allDone = partyMembers.every(m => m.rsvpStatus && m.rsvpStatus !== '');
+      if (allDone) {
+        allPartyMembers = partyMembers; 
+        
+        const hasFullDay = partyMembers.some(m => isFullDay(m));
+        const hasEveningOnly = partyMembers.some(m => !isFullDay(m));
+        document.getElementById('ceremony-info').style.display = hasFullDay ? 'block' : 'none';
+        document.getElementById('reception-info').style.display = hasFullDay ? 'block' : 'none';
+        document.getElementById('evening-info').style.display = (!hasFullDay && hasEveningOnly) ? 'block' : 'none';
+
+        const adultsDone = partyMembers.filter(m => !isChild(m));
+        const childrenDone = partyMembers.filter(m => isChild(m));
+        if (partyMembers.length === 1) {
+          document.getElementById('greeting-party').textContent = `Dear ${partyMembers[0].name}`;
+          document.getElementById('invite-type-label').textContent = typeLabel(partyMembers[0]);
+        } else {
+          const nameList = adultsDone.length > 0 ? adultsDone.map(m => m.name.split(' ')[0]) : partyMembers.map(m => m.name.split(' ')[0]);
+          let greeting = nameList.join(' & ');
+          if (childrenDone.length > 0 && adultsDone.length > 0) greeting += ' & Family';
+          document.getElementById('greeting-party').textContent = `Welcome, ${greeting}`;
+          document.getElementById('invite-type-label').textContent = `Party of ${partyMembers.length}`;
+        }
+
+        let summaryHtml = `<div class="card" style="margin-top:8px; text-align:left; border-color: rgba(196,167,108,0.2);">
+          <div class="card-title" style="font-size:1.2rem; margin-bottom:6px;">Your RSVP</div>
+          <div class="card-subtitle">Responses have been submitted</div>
+          <div class="summary-list">`;
+
+        partyMembers.forEach(m => {
+          const yes = m.rsvpStatus === 'yes';
+          const child = isChild(m);
+          let details = yes ? 'Attending' : 'Unable to attend';
+          if (yes && needsFood(m)) {
+            const foods = [m.starter, m.main, m.dessert].filter(f => f).join(', ');
+            if (foods) details += ` — ${foods}`;
+          }
+          if (m.dietary) details += ` · "${m.dietary}"`;
+          const childTag = child ? '<span class="s-child-tag">Child</span>' : '';
+          summaryHtml += `<div class="summary-item ${yes ? 'accepted' : 'declined'}">
+            <span class="s-icon">${yes ? '🎉' : '💌'}</span>
+            <div><div class="s-name">${m.name}${childTag}</div><div class="s-details">${details}</div></div>
+          </div>`;
+        });
+
+        summaryHtml += `</div>
+          <div style="margin-top:16px; padding:12px 14px; background:var(--warm); border-radius:8px; font-size:0.82rem; color:var(--text-light); font-style:italic; line-height:1.5; text-align:center;">
+            If you need to change your RSVP or food choices, please contact Laura & Matt directly.
+          </div>
+        </div>`;
+
+        document.getElementById('group-progress').style.display = 'none';
+        document.getElementById('person-rsvp-area').innerHTML = summaryHtml;
+        document.getElementById('person-nav').innerHTML = '';
+        document.getElementById('submit-area').style.display = 'none';
+        showScreen('screen-rsvp');
+        return;
+      }
+
+      partyMembers = partyMembers.filter(m => !m.rsvpStatus || m.rsvpStatus === '');
+      partyMembers.sort((a, b) => (isChild(a) ? 1 : 0) - (isChild(b) ? 1 : 0));
+
+      partyMembers.forEach(m => {
+        responses[m.name] = { rsvp: null, dietary: '', starter: '', main: '', dessert: '' };
+      });
+
+      const hasFullDay = partyMembers.some(m => isFullDay(m));
+      const hasEveningOnly = partyMembers.some(m => !isFullDay(m));
+
+      document.getElementById('ceremony-info').style.display = hasFullDay ? 'block' : 'none';
+      document.getElementById('reception-info').style.display = hasFullDay ? 'block' : 'none';
+      document.getElementById('evening-info').style.display = (!hasFullDay && hasEveningOnly) ? 'block' : 'none';
+
+      const adults = partyMembers.filter(m => !isChild(m));
+      const children = partyMembers.filter(m => isChild(m));
+
+      if (partyMembers.length === 1) {
+        document.getElementById('greeting-party').textContent = `Dear ${partyMembers[0].name}`;
+        document.getElementById('invite-type-label').textContent = typeLabel(partyMembers[0]);
+      } else {
+        const nameList = adults.length > 0 ? adults.map(m => m.name.split(' ')[0]) : partyMembers.map(m => m.name.split(' ')[0]);
+        let greeting = nameList.join(' & ');
+        if (children.length > 0 && adults.length > 0) greeting += ' & Family';
+        document.getElementById('greeting-party').textContent = `Welcome, ${greeting}`;
+        document.getElementById('invite-type-label').textContent = `Party of ${partyMembers.length}`;
+      }
+
+      currentIdx = 0;
+      buildPips();
+      renderPerson(0);
+      showScreen('screen-rsvp');
+    }
+  } catch (err) {
+    errorEl.textContent = 'Something went wrong. Please try again in a moment.';
+    errorEl.classList.add('visible');
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Find My Invitation';
+  }
+}
+
+document.getElementById('guest-name').addEventListener('keydown', e => { if (e.key === 'Enter') lookupGuest(); });
+document.getElementById('guest-code').addEventListener('keydown', e => { if (e.key === 'Enter') lookupGuest(); });
+
+function buildPips() {
+  const el = document.getElementById('group-progress');
+  if (partyMembers.length <= 1) { el.style.display = 'none'; return; }
+  el.style.display = 'flex';
+  el.innerHTML = partyMembers.map((m, i) =>
+    `<div class="progress-pip" id="pip-${i}" onclick="goToPerson(${i})">
+      <span class="pip-icon">○</span> ${m.name.split(' ')[0]}
+    </div>`
+  ).join('');
+  updatePips();
+}
+
+function updatePips() {
+  partyMembers.forEach((m, i) => {
+    const pip = document.getElementById(`pip-${i}`);
+    if (!pip) return;
+    const done = isComplete(i);
+    pip.className = 'progress-pip' + (i === currentIdx ? ' active' : '') + (done ? ' done' : '');
+    pip.querySelector('.pip-icon').textContent = done ? '✓' : (i === currentIdx ? '●' : '○');
+  });
+}
+
+function isComplete(idx) {
+  const m = partyMembers[idx];
+  const r = responses[m.name];
+  if (!r || r.rsvp === null) return false;
+  if (r.rsvp === 'no') return true;
+  if (needsFood(m)) return !!(r.starter && r.main && r.dessert);
+  return true;
+}
+
+function renderPerson(idx) {
+  currentIdx = idx;
+  const m = partyMembers[idx];
+  const r = responses[m.name];
+  const area = document.getElementById('person-rsvp-area');
+  const child = isChild(m);
+  const menu = getMenuFor(m);
+  const firstName = m.name.split(' ')[0];
+
+  let menuHtml = '';
+  if (needsFood(m)) {
+    const optClass = child ? 'child-option' : '';
+    const courseClass = child ? 'child-course' : '';
+    const subClass = child ? 'child-menu' : 'adult-menu';
+    const menuLabel = child ? "Children's Menu" : 'Wedding Breakfast Menu';
+
+    menuHtml = `<div class="menu-area ${r.rsvp === 'yes' ? 'visible' : ''}" id="menu-${idx}">
+      <div class="menu-heading">${menuLabel}</div>
+      <div class="menu-heading-sub ${subClass}">Please select one from each course</div>`;
+
+    for (const [course, label] of [['starter','Starter'],['main','Main Course'],['dessert','Dessert']]) {
+      menuHtml += `<div class="course-group"><div class="course-title ${courseClass}">${label}</div>`;
+      menu[course].forEach(item => {
+        const sel = r[course] === item.dish ? 'selected' : '';
+        menuHtml += `<div class="menu-option ${optClass} ${sel}" data-course="${course}" data-dish="${item.dish}" onclick="selectDish(this,${idx})">
+          <span class="check-mark">✓</span>
+          <div class="dish-name">${item.name}</div>
+          <div class="dish-desc">${item.desc}</div>
+        </div>`;
+      });
+      menuHtml += `</div>`;
+    }
+    menuHtml += `</div>`;
+  }
+
+  const childNote = child ? `<div class="child-note">Please complete this section on behalf of ${firstName}</div>` : '';
+  const rsvpQ = child ? `Will ${firstName} be joining us?` : 'Will you be joining us?';
+  const dietaryPH = child ? `Any allergies or dietary needs for ${firstName}...` : 'Any allergies, dietary needs, or a note for the couple...';
+  const dietaryLbl = child ? 'Dietary Requirements or Allergies' : 'Dietary Requirements or Message';
+  const yesLabel = child ? 'Yes' : 'Joyfully Accept';
+  const noLabel = child ? 'No' : 'Regretfully Decline';
+
+  area.innerHTML = `<div class="person-card ${child ? 'child-card' : ''}">
+    <div class="person-name">${m.name}</div>
+    <div class="person-type ${child ? 'child' : 'adult'}">${typeLabel(m)}</div>
+    ${childNote}
+    <div class="rsvp-section">
+      <h3>${rsvpQ}</h3>
+      <div class="rsvp-options">
+        <div class="rsvp-option ${r.rsvp === 'yes' ? 'selected' : ''}" data-value="yes" onclick="selectRsvp(this,${idx})">
+          <div class="rsvp-icon">🎉</div>
+          <div class="rsvp-label">${yesLabel}</div>
+        </div>
+        <div class="rsvp-option ${r.rsvp === 'no' ? 'selected' : ''}" data-value="no" onclick="selectRsvp(this,${idx})">
+          <div class="rsvp-icon">💌</div>
+          <div class="rsvp-label">${noLabel}</div>
+        </div>
+      </div>
+      <div class="dietary-section">
+        <label>${dietaryLbl}</label>
+        <textarea id="dietary-${idx}" placeholder="${dietaryPH}" oninput="responses[partyMembers[${idx}].name].dietary=this.value">${r.dietary}</textarea>
+      </div>
+    </div>
+    ${menuHtml}
+  </div>`;
+
+  updatePips();
+  renderNav();
+}
+
+function goToPerson(idx) {
+  renderPerson(idx);
+  document.getElementById('person-rsvp-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function selectRsvp(el, idx) {
+  el.parentElement.querySelectorAll('.rsvp-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  const m = partyMembers[idx];
+  responses[m.name].rsvp = el.dataset.value;
+
+  if (needsFood(m)) {
+    const menuEl = document.getElementById(`menu-${idx}`);
+    if (menuEl) {
+      if (el.dataset.value === 'yes') {
+        menuEl.classList.add('visible');
+        setTimeout(() => menuEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+      } else {
+        menuEl.classList.remove('visible');
+        responses[m.name].starter = '';
+        responses[m.name].main = '';
+        responses[m.name].dessert = '';
+      }
+    }
+  }
+  updatePips();
+  renderNav();
+}
+
+function selectDish(el, idx) {
+  const course = el.dataset.course;
+  const menuEl = document.getElementById(`menu-${idx}`);
+  menuEl.querySelectorAll(`.menu-option[data-course="${course}"]`).forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  responses[partyMembers[idx].name][course] = el.dataset.dish;
+  updatePips();
+  renderNav();
+}
+
+function renderNav() {
+  const nav = document.getElementById('person-nav');
+  const submitArea = document.getElementById('submit-area');
+  const allDone = partyMembers.every((_, i) => isComplete(i));
+  let btns = '';
+
+  if (currentIdx > 0)
+    btns += `<button class="btn btn-primary" onclick="goToPerson(${currentIdx-1})" style="padding:12px 28px;">← Back</button>`;
+
+  if (currentIdx < partyMembers.length - 1) {
+    const canNext = isComplete(currentIdx);
+    btns += `<button class="btn btn-primary" onclick="goToPerson(${currentIdx+1})" ${canNext?'':'disabled'} style="padding:12px 28px;">Next →</button>`;
+  }
+
+  nav.innerHTML = btns;
+
+  if (allDone) {
+    submitArea.style.display = 'block';
+    renderSummary();
+  } else {
+    submitArea.style.display = 'none';
+  }
+}
+
+function renderSummary() {
+  let html = `<div class="card" style="margin-bottom:20px;text-align:left;">
+    <div class="card-title" style="font-size:1.2rem;margin-bottom:14px;">Review Your Responses</div>
+    <div class="summary-list">`;
+
+  partyMembers.forEach(m => {
+    const r = responses[m.name];
+    const yes = r.rsvp === 'yes';
+    const child = isChild(m);
+    let details = yes ? 'Attending' : 'Unable to attend';
+    if (yes && needsFood(m)) details += ` — ${r.starter}, ${r.main}, ${r.dessert}`;
+    if (r.dietary) details += ` · "${r.dietary}"`;
+    const childTag = child ? '<span class="s-child-tag">Child</span>' : '';
+
+    html += `<div class="summary-item ${yes ? 'accepted' : 'declined'}">
+      <span class="s-icon">${yes ? '🎉' : '💌'}</span>
+      <div><div class="s-name">${m.name}${childTag}</div><div class="s-details">${details}</div></div>
+    </div>`;
+  });
+
+  html += `</div></div>`;
+  document.getElementById('review-summary').innerHTML = html;
+}
+
+async function submitAll() {
+  const btn = document.getElementById('btn-submit');
+  const errorEl = document.getElementById('submit-error');
+  errorEl.classList.remove('visible');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+
+  const payload = {
+    action: 'rsvp_group',
+    members: partyMembers.map(m => ({ name: m.name, ...responses[m.name] }))
+  };
+
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    });
+
+    showScreen('screen-confirm');
+    
+    const allDeclined = partyMembers.every(m => responses[m.name].rsvp === 'no');
+    const calWrapper = document.getElementById('calendar-wrapper');
+
+    if (allDeclined) {
+      if(calWrapper) calWrapper.style.display = 'none';
+      document.getElementById('conf-icon').textContent = '💛';
+      document.getElementById('conf-title').textContent = "We'll Miss You";
+      document.getElementById('conf-message').textContent = "Thank you for letting us know. We'll be thinking of you on our special day.";
+    } else {
+      if(calWrapper) calWrapper.style.display = 'block';
+      document.getElementById('conf-icon').textContent = '🎉';
+      document.getElementById('conf-title').textContent = 'Thank You!';
+      document.getElementById('conf-message').textContent = partyMembers.length > 1
+        ? "All your RSVPs and menu choices have been received. We can't wait to celebrate with you!"
+        : "Your RSVP has been received. We can't wait to celebrate with you!";
+    }
+    
+    showToast('RSVPs submitted successfully!', 'success');
+  } catch (err) {
+    errorEl.textContent = 'Something went wrong. Please try again.';
+    errorEl.classList.add('visible');
+    btn.disabled = false;
+    btn.innerHTML = 'Send All RSVPs';
+    console.error(err);
+  }
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type}`;
+  setTimeout(() => t.classList.add('show'), 50);
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function addToCalendar() {
+  const title = encodeURIComponent("Laura & Matt's Wedding");
+  const startTime = "20260627T123000";
+  const endTime = "20260627T235900";
+  const location = encodeURIComponent("Penryn Town Hall & Castaways Wine Bar, Cornwall");
+  const details = encodeURIComponent("We can't wait to see you! \n\nCeremony: 12:30 PM @ Penryn Town Hall \nReception: 2:30 PM onwards @ Castaways Wine Bar");
+  
+  const calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startTime}/${endTime}&details=${details}&location=${location}`;
+  window.open(calendarUrl, '_blank');
+}
+</script>
+</body>
+</html>

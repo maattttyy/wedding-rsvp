@@ -517,6 +517,7 @@
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
   }
+  
   .toast {
     position: fixed;
     bottom: 30px;
@@ -688,7 +689,7 @@
 
   <div id="screen-name" class="screen active">
     <div class="name-entry">
-      <p>Please enter any name and your unique code from your invitation to get started</p>
+      <p>Please enter any name from your invitation to get started</p>
       
       <div class="input-group">
         <input type="text" id="guest-name" placeholder="Your full name" autocomplete="name" autofocus style="letter-spacing:2px; text-transform:uppercase;">
@@ -786,14 +787,13 @@
       <h2 id="conf-title">Thank You!</h2>
       <p id="conf-message">Your RSVPs have been received.</p>
       
-      <div id="calendar-wrapper" style="margin-top: 30px;">
-        <button class="btn btn-gold" onclick="addToCalendar()">
-          <span>📅</span> Add to Calendar
+      <div id="calendar-wrapper" style="margin-top: 30px; display:flex; flex-direction:column; gap:12px; align-items:center;">
+        <button class="btn btn-gold" onclick="addToGoogleCalendar()">
+          <span>📅</span> Add to Google Calendar
         </button>
-      </div>
-      
-      <div class="submit-area" style="margin-top: 20px;">
-        <button class="btn btn-primary" onclick="location.reload()" style="background: none; color: var(--sage); border: 1px solid var(--sage);">Back to Start</button>
+        <button class="btn btn-gold" onclick="downloadICS()">
+          <span>📅</span> Add to Apple / Outlook
+        </button>
       </div>
     </div>
   </div>
@@ -1038,6 +1038,10 @@ function isComplete(idx) {
   return true;
 }
 
+function handleDietaryInput(el, idx) {
+  responses[partyMembers[idx].name].dietary = el.value;
+}
+
 function renderPerson(idx) {
   currentIdx = idx;
   const m = partyMembers[idx];
@@ -1107,7 +1111,7 @@ function renderPerson(idx) {
       </div>
       <div class="dietary-section">
         <label>${dietaryLbl}</label>
-        <textarea id="dietary-${idx}" placeholder="${dietaryPH}" oninput="responses[partyMembers[${idx}].name].dietary=this.value">${r.dietary}</textarea>
+        <textarea id="dietary-${idx}" placeholder="${dietaryPH}" oninput="handleDietaryInput(this, ${idx})">${r.dietary}</textarea>
       </div>
     </div>
     ${menuHtml}
@@ -1175,6 +1179,12 @@ function renderNav() {
   if (allDone) {
     submitArea.style.display = 'block';
     renderSummary();
+    
+    // Automatically scroll down to the bottom so the submit button is in focus
+    setTimeout(() => {
+      submitArea.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }, 150);
+
   } else {
     submitArea.style.display = 'none';
   }
@@ -1235,7 +1245,7 @@ async function submitAll() {
       document.getElementById('conf-title').textContent = "We'll Miss You";
       document.getElementById('conf-message').textContent = "Thank you for letting us know. We'll be thinking of you on our special day.";
     } else {
-      if(calWrapper) calWrapper.style.display = 'block';
+      if(calWrapper) calWrapper.style.display = 'flex';
       document.getElementById('conf-icon').textContent = '🎉';
       document.getElementById('conf-title').textContent = 'Thank You!';
       document.getElementById('conf-message').textContent = partyMembers.length > 1
@@ -1276,15 +1286,63 @@ function showToast(msg, type) {
   setTimeout(() => t.classList.remove('show'), 3500);
 }
 
-function addToCalendar() {
+function addToGoogleCalendar() {
   const title = encodeURIComponent("Laura & Matt's Wedding");
-  const startTime = "20260627T123000";
+  const hasFullDay = partyMembers.some(m => isFullDay(m));
+  
+  let startTime, location, details;
   const endTime = "20260627T235900";
-  const location = encodeURIComponent("Penryn Town Hall & Castaways Wine Bar, Cornwall");
-  const details = encodeURIComponent("We can't wait to see you! \n\nCeremony: 12:30 PM @ Penryn Town Hall \nReception: 2:30 PM onwards @ Castaways Wine Bar");
+
+  if (hasFullDay) {
+    startTime = "20260627T123000";
+    location = encodeURIComponent("Penryn Town Hall & Castaways Wine Bar, Cornwall");
+    details = encodeURIComponent("We can't wait to see you! \n\nCeremony: 12:30 PM @ Penryn Town Hall \nReception: 2:30 PM onwards @ Castaways Wine Bar");
+  } else {
+    startTime = "20260627T183000"; // 6:30 PM
+    location = encodeURIComponent("Castaways Wine Bar, Mylor Yacht Harbour, Falmouth, TR11 5UF");
+    details = encodeURIComponent("We can't wait to see you! \n\nEvening Reception: 6:30 PM onwards @ Castaways Wine Bar");
+  }
   
   const calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startTime}/${endTime}&details=${details}&location=${location}`;
   window.open(calendarUrl, '_blank');
+}
+
+function downloadICS() {
+  const hasFullDay = partyMembers.some(m => isFullDay(m));
+  
+  let dtStart, location, description;
+  if (hasFullDay) {
+    dtStart = "20260627T123000";
+    location = "Penryn Town Hall & Castaways Wine Bar\\, Cornwall";
+    description = "We can't wait to see you!\\n\\nCeremony: 12:30 PM @ Penryn Town Hall\\nReception: 2:30 PM onwards @ Castaways Wine Bar";
+  } else {
+    dtStart = "20260627T183000";
+    location = "Castaways Wine Bar\\, Mylor Yacht Harbour\\, Falmouth\\, TR11 5UF";
+    description = "We can't wait to see you!\\n\\nEvening Reception: 6:30 PM onwards @ Castaways Wine Bar";
+  }
+
+  const icsContent = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Laura and Matt Wedding//EN",
+    "BEGIN:VEVENT",
+    `DTSTART:${dtStart}`,
+    "DTEND:20260627T235900",
+    "SUMMARY:Laura & Matt's Wedding",
+    `LOCATION:${location}`,
+    `DESCRIPTION:${description}`,
+    "END:VEVENT",
+    "END:VCALENDAR"
+  ].join("\r\n");
+
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', 'Laura_and_Matt_Wedding.ics');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 </script>
 

@@ -136,8 +136,35 @@
   .btn-gold:hover { background: #B89755; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(196,167,108,0.3); }
   .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
 
-  .error-msg { color: var(--error); font-size: 0.85rem; margin-top: 10px; display: none; }
-  .error-msg.visible { display: block; }
+ /* Updated Error Styling */
+.error-msg {
+  display: none;
+  background: #FFF5F5; /* Very soft rose background */
+  color: var(--error);
+  border: 1px solid rgba(196, 91, 91, 0.2);
+  padding: 14px;
+  border-radius: 8px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-style: italic;
+  margin: 20px 0;
+  line-height: 1.4;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(196, 91, 91, 0.05);
+}
+
+.error-msg.visible {
+  display: block;
+  animation: errorShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* A gentle shake to grab attention without being jarring */
+@keyframes errorShake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+  40%, 60% { transform: translate3d(3px, 0, 0); }
+}
 
   .card {
     background: var(--white);
@@ -532,6 +559,40 @@
     animation: fadeIn 2s ease forwards, gentleSway 9s ease-in-out infinite;
     animation-delay: 0.6s, 0.6s;
   }
+/* Enhanced Confirmation Screen */
+.confirmation {
+  padding: 80px 20px;
+  background: var(--white);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(139, 157, 131, 0.1);
+  border: 1px solid var(--sage-pale);
+  margin-top: 40px;
+}
+
+#conf-icon {
+  font-size: 4rem;
+  margin-bottom: 24px;
+  display: inline-block;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+#conf-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  color: var(--charcoal);
+  margin-bottom: 15px;
+}
+
+#conf-message {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--text-light);
+  max-width: 450px;
+  margin: 0 auto 30px;
+  line-height: 1.6;
+}
+  
   /* Bottom-left gypsophila */
   .bot-bl {
     bottom: -10px; left: -20px;
@@ -814,6 +875,10 @@
       <div class="conf-icon" id="conf-icon">🎉</div>
       <h2 id="conf-title">Thank You!</h2>
       <p id="conf-message">Your RSVPs have been received.</p>
+
+      <div class="submit-area" style="margin-top: 20px;">
+  <button class="btn btn-primary" onclick="location.reload()">Back to Start</button>
+  </div>
     </div>
   </div>
 </div>
@@ -896,7 +961,7 @@ async function lookupGuest() {
 
   if (!name) { errorEl.textContent = 'Please enter your name.'; errorEl.classList.add('visible'); return; }
   if (!code) { errorEl.textContent = 'Please enter your unique invite code.'; errorEl.classList.add('visible'); return; }
-  errorEl.classList.remove('visible');
+ void errorEl.offsetWidth; 
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>';
 
@@ -904,11 +969,15 @@ async function lookupGuest() {
     const res = await fetch(`${APPS_SCRIPT_URL}?action=lookup&name=${encodeURIComponent(name)}&code=${encodeURIComponent(code)}`);
     const data = await res.json();
 
-    if (data.found && data.codeMatch === false) {
-      errorEl.textContent = "The invite code doesn't match. Please check the code on your invitation.";
-      errorEl.classList.add('visible');
-      return;
-    }
+      if (data.found && data.codeMatch === false) {
+    errorEl.textContent = "The invite code doesn't match. Please check the code on your invitation.";
+  } else {
+    errorEl.textContent = "We couldn't find that name on our guest list. Please check the spelling matches your invitation.";
+  }
+  
+  errorEl.classList.add('visible');
+  return;
+}
 
     if (data.found) {
       partyMembers = data.members;
@@ -922,6 +991,8 @@ async function lookupGuest() {
           return;
         }
       }
+
+      
 
       const allDone = partyMembers.every(m => m.rsvpStatus && m.rsvpStatus !== '');
       if (allDone) {

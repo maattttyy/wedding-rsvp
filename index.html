@@ -693,7 +693,10 @@
     <div class="name-entry">
       <p>Please enter any name from your invitation to get started</p>
       <div class="input-group">
-        <input type="text" id="guest-name" placeholder="Your full name" autocomplete="name" autofocus>
+        <input type="text" id="guest-name" placeholder="Your full name" autocomplete="name" autofocus style="letter-spacing:2px; text-transform:uppercase;>
+      </div>
+      <div class="input-group">
+        <input type="text" id="guest-code" placeholder="Your unique invite code" autocomplete="off" style="letter-spacing:2px; text-transform:uppercase;">
       </div>
       <div id="name-error" class="error-msg">We couldn't find that name on our guest list.</div>
       <button class="btn btn-primary" id="btn-lookup" onclick="lookupGuest()">Find My Invitation</button>
@@ -712,7 +715,7 @@
         <h3><span class="icon">🕊</span> Ceremony</h3>
         <div class="venue-detail">
           <div class="label">When</div>
-          <strong>1:00 PM</strong>
+          <strong>12:30 PM</strong>
         </div>
         <div class="venue-detail">
           <div class="label">Where</div>
@@ -793,7 +796,11 @@
 // ═══════════════════════════════════════════════════════════════
 // ✏️ CONFIGURATION
 // ═══════════════════════════════════════════════════════════════
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxi4TFOPkRyk1M_8Agn0-PBnvus00MPGnKvFgTjlGUPzdxeRvmrnLpFnCv5RQTN3BcW/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzD6xsLJO4M6weGmvHUrfrkO-E_ofsCQhzLHDN1YyDxHM6qGhuKORUIrnGbn4Gmqm7Q/exec';
+
+// ✏️ Set to true to block full-day guests (full + child-full) from accessing the site
+// Set to false to allow everyone in
+const FULL_DAY_LOCKED = true;
 
 // ✏️ ADULT MENU
 const MENU = {
@@ -855,20 +862,38 @@ let responses = {};
 // ── Lookup ──
 async function lookupGuest() {
   const name = document.getElementById('guest-name').value.trim();
+  const code = document.getElementById('guest-code').value.trim().toUpperCase();
   const errorEl = document.getElementById('name-error');
   const btn = document.getElementById('btn-lookup');
 
   if (!name) { errorEl.textContent = 'Please enter your name.'; errorEl.classList.add('visible'); return; }
+  if (!code) { errorEl.textContent = 'Please enter your unique invite code.'; errorEl.classList.add('visible'); return; }
   errorEl.classList.remove('visible');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>';
 
   try {
-    const res = await fetch(`${APPS_SCRIPT_URL}?action=lookup&name=${encodeURIComponent(name)}`);
+    const res = await fetch(`${APPS_SCRIPT_URL}?action=lookup&name=${encodeURIComponent(name)}&code=${encodeURIComponent(code)}`);
     const data = await res.json();
+
+    if (data.found && data.codeMatch === false) {
+      errorEl.textContent = "The invite code doesn't match. Please check the code on your invitation.";
+      errorEl.classList.add('visible');
+      return;
+    }
 
     if (data.found) {
       partyMembers = data.members;
+
+      // Check if full-day guests are locked out
+      if (FULL_DAY_LOCKED) {
+        const hasFullDay = partyMembers.some(m => isFullDay(m));
+        if (hasFullDay) {
+          errorEl.textContent = "Full day invitations are not yet available. Please check back soon.";
+          errorEl.classList.add('visible');
+          return;
+        }
+      }
 
       const allDone = partyMembers.every(m => m.rsvpStatus && m.rsvpStatus !== '');
       if (allDone) {
@@ -981,6 +1006,7 @@ async function lookupGuest() {
 }
 
 document.getElementById('guest-name').addEventListener('keydown', e => { if (e.key === 'Enter') lookupGuest(); });
+document.getElementById('guest-code').addEventListener('keydown', e => { if (e.key === 'Enter') lookupGuest(); });
 
 // ── Progress Pips ──
 function buildPips() {

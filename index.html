@@ -689,19 +689,24 @@
   </div>
 
   <!-- SCREEN 1: Name Entry -->
-  <div id="screen-name" class="screen active">
-    <div class="name-entry">
-      <p>Please enter any name from your invitation to get started</p>
-      <div class="input-group">
-        <input type="text" id="guest-name" placeholder="Your full name" autocomplete="name" autofocus style="letter-spacing:2px; text-transform:uppercase;>
-      </div>
-      <div class="input-group">
-        <input type="text" id="guest-code" placeholder="Your unique invite code" autocomplete="off" style="letter-spacing:2px; text-transform:uppercase;">
-      </div>
-      <div id="name-error" class="error-msg">We couldn't find that name on our guest list.</div>
-      <button class="btn btn-primary" id="btn-lookup" onclick="lookupGuest()">Find My Invitation</button>
+ <div id="screen-name" class="screen active">
+  <div class="name-entry">
+    <p>Please enter any name from your invitation to get started</p>
+    
+    <div class="input-group">
+      <input type="text" id="guest-name" placeholder="Your full name" autocomplete="name" autofocus style="letter-spacing:2px; text-transform:uppercase;">
     </div>
+
+    <hr class="form-divider">
+
+    <div class="input-group">
+      <input type="text" id="guest-code" placeholder="Your unique invite code" autocomplete="off" style="letter-spacing:2px; text-transform:uppercase;">
+    </div>
+    
+    <div id="name-error" class="error-msg">We couldn't find that name on our guest list.</div>
+    <button class="btn btn-primary" id="btn-lookup" onclick="lookupGuest()">Find My Invitation</button>
   </div>
+</div>
 
   <!-- SCREEN 2: Venue + Group RSVP -->
   <div id="screen-rsvp" class="screen">

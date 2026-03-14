@@ -930,10 +930,15 @@ async function lookupGuest() {
           document.getElementById('invite-type-label').textContent = `Party of ${partyMembers.length}`;
         }
 
-        let summaryHtml = `<div class="card" style="margin-top:8px; text-align:left; border-color: rgba(196,167,108,0.2);">
-          <div class="card-title" style="font-size:1.2rem; margin-bottom:6px;">Your RSVP</div>
-          <div class="card-subtitle">Responses have been submitted</div>
-          <div class="summary-list">`;
+        let const contactText = hasFullDay 
+          ? "If you need to change your RSVP or food choices, please contact Laura & Matt directly." 
+          : "If you need to change your RSVP, please contact Laura & Matt directly.";
+
+        summaryHtml += `</div>
+          <div style="margin-top:16px; padding:12px 14px; background:var(--warm); border-radius:8px; font-size:0.82rem; color:var(--text-light); font-style:italic; line-height:1.5; text-align:center;">
+            ${contactText}
+          </div>
+        </div>`;
 
         partyMembers.forEach(m => {
           const yes = m.rsvpStatus === 'yes';
@@ -1077,10 +1082,23 @@ function renderPerson(idx) {
     menuHtml += `</div>`;
   }
 
-  const childNote = child ? `<div class="child-note">Please complete this section on behalf of ${firstName}</div>` : '';
+const childNote = child ? `<div class="child-note">Please complete this section on behalf of ${firstName}</div>` : '';
   const rsvpQ = child ? `Will ${firstName} be joining us?` : 'Will you be joining us?';
-  const dietaryPH = child ? `Any allergies or dietary needs for ${firstName}...` : 'Any allergies, dietary needs, or a note for the couple...';
-  const dietaryLbl = child ? 'Dietary Requirements or Allergies' : 'Dietary Requirements or Message';
+  const yesLabel = child ? 'Yes' : 'Joyfully Accept';
+  const noLabel = child ? 'No' : 'Regretfully Decline';
+
+  let dietaryPH = '';
+  let dietaryLbl = '';
+
+  if (needsFood(m)) {
+    // Full day guests (with food)
+    dietaryPH = child ? `Any allergies or dietary needs for ${firstName}...` : 'Any allergies, dietary needs, or a note for the couple...';
+    dietaryLbl = child ? 'Dietary Requirements or Allergies' : 'Dietary Requirements or Message';
+  } else {
+    // Evening guests (no food)
+    dietaryPH = child ? `Any note for the couple regarding ${firstName}...` : 'Any message or note for the couple...';
+    dietaryLbl = child ? 'Note (Optional)' : 'Message for the Couple (Optional)';
+  }
   const yesLabel = child ? 'Yes' : 'Joyfully Accept';
   const noLabel = child ? 'No' : 'Regretfully Decline';
 
@@ -1224,7 +1242,7 @@ async function submitAll() {
     const allDeclined = partyMembers.every(m => responses[m.name].rsvp === 'no');
     const calWrapper = document.getElementById('calendar-wrapper');
 
-    if (allDeclined) {
+  if (allDeclined) {
       if(calWrapper) calWrapper.style.display = 'none';
       document.getElementById('conf-icon').textContent = '💛';
       document.getElementById('conf-title').textContent = "We'll Miss You";
@@ -1236,6 +1254,15 @@ async function submitAll() {
       document.getElementById('conf-message').textContent = partyMembers.length > 1
         ? "All your RSVPs and menu choices have been received. We can't wait to celebrate with you!"
         : "Your RSVP has been received. We can't wait to celebrate with you!";
+        
+      // ✨ THE NEW CONFETTI TRIGGER ✨
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#8B9D83', '#C4A76C', '#D4A5A5', '#B8A9C9'], // Your custom wedding palette!
+        disableForReducedMotion: true
+      });
     }
     
     showToast('RSVPs submitted successfully!', 'success');
@@ -1273,5 +1300,6 @@ function addToCalendar() {
   window.open(calendarUrl, '_blank');
 }
 </script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 </body>
 </html>

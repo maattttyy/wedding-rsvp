@@ -870,15 +870,23 @@
   </div>
 
   <!-- SCREEN 3: Confirmation -->
-  <div id="screen-confirm" class="screen">
-    <div class="confirmation">
-      <div class="conf-icon" id="conf-icon">🎉</div>
-      <h2 id="conf-title">Thank You!</h2>
-      <p id="conf-message">Your RSVPs have been received.</p>
+ 
 
-      <div class="submit-area" style="margin-top: 20px;">
+  <div id="screen-confirm" class="screen">
+  <div class="confirmation">
+    <div class="conf-icon" id="conf-icon">🎉</div>
+    <h2 id="conf-title">Thank You!</h2>
+    <p id="conf-message">Your RSVPs have been received.</p>
+     <div class="submit-area" style="margin-top: 20px;">
   <button class="btn btn-primary" onclick="location.reload()">Back to Start</button>
   </div>
+    <div id="calendar-wrapper" style="margin-top: 30px;">
+      <button class="btn btn-gold" onclick="addToCalendar()">
+        <span>📅</span> Add to Calendar
+      </button>
+      <div style="margin-top: 20px;">
+        <button class="btn btn-primary" onclick="location.reload()" style="background: none; color: var(--sage); border: 1px solid var(--sage);">Back to Start</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1323,6 +1331,14 @@ async function submitAll() {
 
     showScreen('screen-confirm');
     const allDeclined = partyMembers.every(m => responses[m.name].rsvp === 'no');
+const calWrapper = document.getElementById('calendar-wrapper');
+
+if (allDeclined) {
+    // ... your existing "We'll miss you" text updates ...
+    if(calWrapper) calWrapper.style.display = 'none'; // Hide calendar if they can't come
+} else {
+    if(calWrapper) calWrapper.style.display = 'block';
+}
     if (allDeclined) {
       document.getElementById('conf-icon').textContent = '💛';
       document.getElementById('conf-title').textContent = "We'll Miss You";
@@ -1358,6 +1374,22 @@ function showToast(msg, type) {
   setTimeout(() => t.classList.add('show'), 50);
   setTimeout(() => t.classList.remove('show'), 3500);
 }
+function addToCalendar() {
+  const title = encodeURIComponent("Laura & Matt's Wedding");
+  
+  // Date format: YYYYMMDDTHHmmSS (June 27, 2026)
+  // We'll set it from 12:30 PM to 11:59 PM
+  const startTime = "20260627T123000";
+  const endTime = "20260627T235900";
+  
+  const location = encodeURIComponent("Penryn Town Hall & Castaways Wine Bar, Cornwall");
+  const details = encodeURIComponent("We can't wait to see you! \n\nCeremony: 12:30 PM @ Penryn Town Hall \nReception: 2:30 PM onwards @ Castaways Wine Bar");
+  
+  const calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startTime}/${endTime}&details=${details}&location=${location}`;
+  
+  window.open(calendarUrl, '_blank');
+}
+  
 </script>
 </body>
 </html>

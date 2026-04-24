@@ -804,39 +804,27 @@
 
 <script>
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzD6xsLJO4M6weGmvHUrfrkO-E_ofsCQhzLHDN1YyDxHM6qGhuKORUIrnGbn4Gmqm7Q/exec';
-const FULL_DAY_LOCKED = true;
+const FULL_DAY_LOCKED = false;
 
 const MENU = {
   starter: [
-    { dish: 'Soup', name: 'Roasted Tomato & Basil Soup', desc: 'With sourdough croutons & herb oil' },
-    { dish: 'Salmon', name: 'Citrus Cured Salmon', desc: 'Pickled cucumber, dill crème fraîche, rye crisps' },
-    { dish: 'Goats Cheese', name: "Goat's Cheese & Beetroot Tart", desc: 'Candied walnuts, honey vinaigrette (V)' }
+    { dish: 'Terrine', name: 'Chicken & Ham Hock Terrine', desc: 'Pressed chicken and ham hock terrine served with apple chutney, cornichons, and toasted sourdough.' },
+    { dish: 'Salmon', name: 'Smoked Salmon with Lemon & Dill', desc: 'Smoked salmon served with lemon and crème fraîche, fresh dill, pickled cucumber ribbons, and homemade focaccia.' },
+    { dish: 'Focaccia', name: "Heritage Tomato, Burrata & Basil (V)", desc: 'Seasonal tomatoes with burrata, basil oil, cracked black pepper and toasted focaccia.' },
   ],
   main: [
-    { dish: 'Beef', name: 'Slow-Roasted Beef Fillet', desc: 'Dauphinoise potatoes, seasonal greens, red wine jus' },
-    { dish: 'Chicken', name: 'Herb-Crusted Chicken Supreme', desc: 'Crushed new potatoes, tenderstem broccoli, tarragon sauce' },
-    { dish: 'Mushroom Wellington', name: 'Wild Mushroom Wellington', desc: 'Truffle mash, roasted roots, thyme gravy (VG)' }
-  ],
-  dessert: [
-    { dish: 'Cheesecake', name: 'Vanilla Bean Cheesecake', desc: 'Berry compote, shortbread crumb' },
-    { dish: 'Chocolate', name: 'Dark Chocolate Fondant', desc: 'Salted caramel ice cream, honeycomb' },
-    { dish: 'Panna Cotta', name: 'Lemon & Elderflower Panna Cotta', desc: 'Fresh raspberries, pistachio crumble' }
+    { dish: 'Fish and Chips', name: 'Classic Beer-Battered Cod & Chips', desc: 'Golden battered cod served with chips, crushed minted peas and tartare sauce.' },
+    { dish: 'Beef', name: 'Slow-Cooked Beef Brisket', desc: 'Tender beef brisket braised in red wine and herbs, served with creamy mashed potatoes, seasonal greens and a rich jus.' },
+    { dish: 'Dhal', name: 'Butternut Squash, Lentil & Spinach Dhal (V, VG)', desc: 'A gently spiced red lentil dhal with roasted butternut squash and wilted spinach, served with basmati rice and warm flatbread.' },
+    { dish: 'Hake', name: 'Hake Fillet', desc: 'Pan-seared hake fillet with a golden crust, served on a bed of saffron risotto with tenderstem broccoli and a lemon butter sauce.' }
   ]
 };
 
 const KIDS_MENU = {
-  starter: [
-    { dish: 'Tomato Soup', name: 'Tomato Soup', desc: 'With bread soldiers' },
-    { dish: 'Garlic Bread', name: 'Cheesy Garlic Bread', desc: 'Toasted ciabatta with melted cheese' }
-  ],
   main: [
-    { dish: 'Chicken Goujons', name: 'Chicken Goujons', desc: 'With chips & garden peas' },
-    { dish: 'Mac & Cheese', name: 'Mac & Cheese', desc: 'Creamy macaroni cheese with garlic bread' },
-    { dish: 'Fish Fingers', name: 'Fish Fingers', desc: 'With chips & baked beans' }
-  ],
-  dessert: [
-    { dish: 'Ice Cream', name: 'Ice Cream Sundae', desc: 'Three scoops with chocolate sauce & sprinkles' },
-    { dish: 'Brownie', name: 'Chocolate Brownie', desc: 'Warm brownie with vanilla ice cream' }
+    { dish: 'Fish & Fries', name: 'Kids Cod and Fries', desc: 'Fish, fries and peas.' },
+    { dish: 'Pizza', name: 'Kids Margherita Pizza', desc: 'Tomato and mozzarella pizza.' },
+    { dish: 'Spaghetti Bolognese', name: 'Spaghetti Bolognese', desc: 'Spaghetti with beef tomato sauce.' }
   ]
 };
 
@@ -1034,7 +1022,7 @@ function isComplete(idx) {
   const r = responses[m.name];
   if (!r || r.rsvp === null) return false;
   if (r.rsvp === 'no') return true;
-  if (needsFood(m)) return !!(r.starter && r.main && r.dessert);
+  if (needsFood(m)) return isChild(m) ? !!r.main : !!(r.starter && r.main);
   return true;
 }
 
@@ -1062,7 +1050,8 @@ function renderPerson(idx) {
       <div class="menu-heading">${menuLabel}</div>
       <div class="menu-heading-sub ${subClass}">Please select one from each course</div>`;
 
-    for (const [course, label] of [['starter','Starter'],['main','Main Course'],['dessert','Dessert']]) {
+    const courses = child ? [['main','Main Course']] : [['starter','Starter'],['main','Main Course']];
+    for (const [course, label] of courses) {
       menuHtml += `<div class="course-group"><div class="course-title ${courseClass}">${label}</div>`;
       menu[course].forEach(item => {
         const sel = r[course] === item.dish ? 'selected' : '';
@@ -1074,6 +1063,14 @@ function renderPerson(idx) {
       });
       menuHtml += `</div>`;
     }
+
+    menuHtml += `<div class="course-group">
+      <div class="course-title ${courseClass}">Dessert</div>
+      <div class="menu-option ${optClass}" style="cursor:default; pointer-events:none;">
+        <div class="dish-name">Wedding cake &amp; ice cream tokens for all!</div>
+      </div>
+    </div>`;
+
     menuHtml += `</div>`;
   }
 
@@ -1200,7 +1197,10 @@ function renderSummary() {
     const yes = r.rsvp === 'yes';
     const child = isChild(m);
     let details = yes ? 'Attending' : 'Unable to attend';
-    if (yes && needsFood(m)) details += ` — ${r.starter}, ${r.main}, ${r.dessert}`;
+    if (yes && needsFood(m)) {
+      const foods = [r.starter, r.main].filter(f => f).join(', ');
+      if (foods) details += ` — ${foods}`;
+    }
     if (r.dietary) details += ` · "${r.dietary}"`;
     const childTag = child ? '<span class="s-child-tag">Child</span>' : '';
 
